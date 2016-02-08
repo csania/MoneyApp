@@ -12,3 +12,23 @@ Item::~Item()
 {
 
 }
+
+std::string Item::getType()
+{
+	return type_;
+}
+
+std::string Item::getAmmount()
+{
+	return ammount_;
+}
+
+std::string Item::getDate()
+{
+	return date_;
+}
+
+std::string Item::getCurrency()
+{
+	return currency_;
+}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtWidgets\qwidget>
+#include <list>
 
 class Session;
 class QListWidget;
@@ -21,12 +22,10 @@ private:
 	QDialog* addTransactionWidget;
 
 	void createButtonsLayout(QHBoxLayout *buttonsLayout);
-	void createAddTransactionDialogue();
 
 private slots:
 
 	void addTransaction();
-	void addTransactionDetailsIntoList();
 
 };
 

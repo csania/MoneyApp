@@ -1,18 +1,19 @@
 #include <ctime>
+#include <algorithm>
 
 #include "Session.h"
 #include "Interface.h"
 #include "Item.h"
-#include "algorithm"
+#include "AddTransactionDialog.h"
 
 #include <QtWidgets\QVBoxLayout>
 #include <QtWidgets\QHBoxLayout>
 #include <QtWidgets\QDialog>
+
 #include <QtWidgets\QListWidget.h>
 #include <QtWidgets\qpushbutton.h>
 #include <QtCore\qdatetime.h>
-#include <QtWidgets\qlabel.h>
-#include <QtWidgets\qlineedit.h>
+
 
 Interface::Interface(Session* currentSession)
 {
@@ -55,57 +56,17 @@ void Interface::addTransaction()
 	QTime nowTime = QTime::currentTime();
 	QString time = nowTime.toString("hh:mm");
 
-	Item *newItem = new Item( date.toStdString(), time.toStdString(), "10");
-	thisSession->addAnotherItem(newItem);
-	QListWidgetItem* qListItem = new QListWidgetItem;
-	qListItem->setText(date + " " + time);
+	AddTransactionDialog transactionDialog;
+	if(transactionDialog.getAcceptedDialog()) {
 
-	createAddTransactionDialogue();
+		std::string outS = transactionDialog.getItemType() + " " + transactionDialog.getItemPrice();
+		QString qStr = QString::fromUtf8(outS.c_str());
 
-	transactionData->addItem(qListItem);
-}
+		QListWidgetItem* qListItem = new QListWidgetItem;
+		qListItem->setText(date + " " + time + " " + qStr);
+		transactionData->addItem(qListItem);
 
-void Interface::createAddTransactionDialogue()
-{
-	QVBoxLayout* widgetLayout = new QVBoxLayout;
-	addTransactionWidget = new QDialog;
-
-	addTransactionWidget->setLayout(widgetLayout);
-
-	QHBoxLayout nameLayout;
-	QLabel nameLabel;
-	nameLabel.setText("Item Name");
-	QLineEdit nameLine;
-	nameLayout.addWidget(&nameLabel);
-	nameLayout.addWidget(&nameLine);
-	widgetLayout->addLayout(&nameLayout);
-
-	QHBoxLayout priceLayout;
-	QLabel priceLabel;
-	priceLabel.setText("Item Price");
-	QLineEdit priceLine;
-	priceLayout.addWidget(&priceLabel);
-	priceLayout.addWidget(&priceLine);
-	widgetLayout->addLayout(&priceLayout);
-
-	QHBoxLayout infoLayout;
-	QLabel infoLabel;
-	infoLabel.setText("Addiotional Information");
-	QLineEdit infoLine;
-	infoLayout.addWidget(&infoLabel);
-	infoLayout.addWidget(&infoLine);
-	widgetLayout->addLayout(&infoLayout);
-
-	QPushButton *okButton = new QPushButton;
-	okButton->setText("Ok");
-	widgetLayout->addWidget(okButton);
-
-	connect(okButton, SIGNAL(clicked()), this, SLOT(addTransactionDetailsIntoList()));
-
-	addTransactionWidget->exec();
-}
-
-void Interface::addTransactionDetailsIntoList()
-{
-	auto infoList = addTransactionWidget->children();
+		Item *newItem = new Item( date.toStdString(), time.toStdString(), "10");
+		thisSession->addAnotherItem(newItem);
+	}
 }
