@@ -6,9 +6,8 @@
 class Session;
 class QListWidget;
 class QHBoxLayout;
-class QVBoxLayout;
 class QWidget;
-class QDialog;
+class QToolButton;
 
 class Interface : public QWidget
 {
@@ -19,13 +18,16 @@ public:
 private:
 	Session* thisSession;
 	QListWidget *transactionData;
-	QDialog* addTransactionWidget;
+	QToolButton* peopleButton;
 
 	void createButtonsLayout(QHBoxLayout *buttonsLayout);
+	void createPeopleWidget();
+	void populatePeopleWidget(std::string newName = "");
 
 private slots:
 
 	void addTransaction();
+	void addPersonToSession();
 
 };
 

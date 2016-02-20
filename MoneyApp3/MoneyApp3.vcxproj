@@ -150,6 +150,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddPersonDialog.h" />
     <ClInclude Include="AddTransactionDialog.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Item.h" />
@@ -159,6 +160,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddPersonDialog.cpp" />
+    <ClCompile Include="AddPersonDialog_moc.cpp" />
     <ClCompile Include="AddTransactionDialog.cpp" />
     <ClCompile Include="AddTransactionDialog_moc.cpp" />
     <ClCompile Include="Interface.cpp" />

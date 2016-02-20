@@ -42,6 +42,9 @@
     <ClInclude Include="AddTransactionDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AddPersonDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MoneyApp3.cpp">
@@ -66,6 +69,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AddTransactionDialog_moc.cpp">
+      <Filter>Mocs</Filter>
+    </ClCompile>
+    <ClCompile Include="AddPersonDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddPersonDialog_moc.cpp">
       <Filter>Mocs</Filter>
     </ClCompile>
   </ItemGroup>

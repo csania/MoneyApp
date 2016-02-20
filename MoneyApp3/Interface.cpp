@@ -4,39 +4,84 @@
 #include "Session.h"
 #include "Interface.h"
 #include "Item.h"
+#include "Person.h"
 #include "AddTransactionDialog.h"
+#include "AddPersonDialog.h"
 
 #include <QtWidgets\QVBoxLayout>
 #include <QtWidgets\QHBoxLayout>
 #include <QtWidgets\QDialog>
+#include <QtWidgets\QToolButton>
 
 #include <QtWidgets\QListWidget.h>
 #include <QtWidgets\qpushbutton.h>
 #include <QtCore\qdatetime.h>
 
+#include "add.xpm"
 
 Interface::Interface(Session* currentSession)
 {
-	addTransactionWidget = nullptr;
-
 	thisSession = currentSession;
 	QVBoxLayout* mainLayoyt;
-	setLayout(mainLayoyt = new QVBoxLayout);
+	setLayout(mainLayoyt = new QVBoxLayout(this));
 
-	transactionData = new QListWidget;
+	peopleButton = new QToolButton(this);
+	createPeopleWidget();
+	mainLayoyt->addWidget(peopleButton);
+
+
+	transactionData = new QListWidget(this);
 	mainLayoyt->addWidget(transactionData);
 
-	QHBoxLayout *buttonsLayout = new QHBoxLayout;
+	QHBoxLayout *buttonsLayout = new QHBoxLayout();
 	createButtonsLayout(buttonsLayout);
 
 	mainLayoyt->addLayout(buttonsLayout);
 }
 
+void Interface::createPeopleWidget()
+{
+	peopleButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+	QPixmap pMap((const char **) add_user);
+	peopleButton->setIcon(QIcon(pMap));
+
+	populatePeopleWidget();
+
+	connect(peopleButton, SIGNAL(clicked()), this, SLOT(addPersonToSession()));
+}
+
+void Interface::addPersonToSession()
+{
+	AddPersonDialog addPerson;
+	addPerson.createDialogeComponents(thisSession->getPeopleList());
+	if(addPerson.shouldModify()) {
+		auto newList = addPerson.getNewList();
+		thisSession->updatePeopleList(newList);
+		populatePeopleWidget();
+	}
+}
+
+void Interface::populatePeopleWidget(std::string newName)
+{
+	auto listOfPeople = thisSession->getPeopleList();
+	if(listOfPeople.size() == 0) {
+		peopleButton->setText("Session has no people");
+	}
+	else {
+		std::string allNames;
+		std::for_each(listOfPeople.begin(), listOfPeople.end(), [&allNames](Person &current) {
+			allNames += current.getPersonName() + " ";
+		});
+		peopleButton->setText(QString::fromStdString(allNames));
+	}
+}
+
 void Interface::createButtonsLayout(QHBoxLayout *buttonsLayout)
 {
-	QPushButton *addItem = new QPushButton;
-	QPushButton *removeItem = new QPushButton;
-	QPushButton *analyze = new QPushButton;
+	QPushButton *addItem = new QPushButton(this);
+	QPushButton *removeItem = new QPushButton(this);
+	QPushButton *analyze = new QPushButton(this);
 
 	addItem->setText("Add");
 	removeItem->setText("Remove");
@@ -52,7 +97,7 @@ void Interface::createButtonsLayout(QHBoxLayout *buttonsLayout)
 void Interface::addTransaction()
 {
 	QDate nowDate = QDate::currentDate();
-	QString date = nowDate.toString("d MMMM yy");
+	QString date = nowDate.toString("d MM");
 	QTime nowTime = QTime::currentTime();
 	QString time = nowTime.toString("hh:mm");
 
