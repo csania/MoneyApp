@@ -7,7 +7,7 @@
 class QLineEdit;
 class QDialogButtonBox;
 class QSignalMapper;
-class QListWidget;
+class QTableWidget;
 class Person;
 
 class AddPersonDialog : public QDialog
@@ -18,18 +18,19 @@ public:
 	~AddPersonDialog();
 
 	void populateListWidget();
-	void createDialogeComponents(std::vector<Person> &listOfPeople);
+	void createDialogeComponents(std::vector<Person*> &listOfPeople);
 	bool shouldModify();
-	std::vector<Person> getNewList();
+	std::vector<Person*> getNewList();
 
 private:
 	bool savePeopleModification;
-	std::vector<Person> localListOfPeople;
+	std::vector<Person*> localListOfPeople;
+	QString str(std::string stringToConvert);
 
 	void cleanPeopleListDialog();
-	void addPersonToPeopleDialog(Person newPerson);
+	void addPersonToPeopleDialog(Person* newPerson);
 
-	QListWidget *peopleSummaryDialog;
+	QTableWidget *peopleSummaryDialog;
 	QLineEdit* newPersonName;
 	QDialogButtonBox* buttonBox;
 	

@@ -4,6 +4,8 @@
 
 class QDialogButtonBox;
 class QLineEdit;
+class QPlainTextEdit;
+class Person;
 
 class AddTransactionDialog : public QDialog
 {
@@ -13,6 +15,7 @@ public:
 	~AddTransactionDialog();
 
 	void setDialogValues();
+	void createDialogComponenets(std::vector<Person*> &listOfPeople);
 	bool getAcceptedDialog();
 
 	std::string getItemType();
@@ -24,18 +27,21 @@ public:
 private:
 	QLineEdit* itemTypeLine;
 	QLineEdit* priceLine;
-	QLineEdit* infoLine;
+	QPlainTextEdit* infoLine;
 	QDialogButtonBox* buttonBox;
-
-	void createDialogComponenets();
 
 	bool acceptDialog;
 	std::string itemType_;
 	std::string itemPrice_;
 	std::string itemDetails_;
+	std::vector<Person*> locallistOfPeople;
+
+signals:
+	void peopleClicked();
 	
 private slots:
 	void pressedOk();
 	void pressedCancel();
+	void clickedOnPeople();
 };
 

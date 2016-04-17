@@ -1,22 +1,24 @@
 #include "AddTransactionDialog.h"
+#include "GenericSelectionDialog.h"
 
 #include <QtWidgets\QVBoxLayout>
 #include <QtWidgets\QHBoxLayout>
 #include <QtWidgets\QDialogButtonBox>
 #include <QtWidgets\qlineedit.h>
 #include <QtWidgets\qlabel.h>
+#include <QtWidgets\qplaintextedit.h>
+#include <QtWidgets\qpushbutton.h>
 
 
 AddTransactionDialog::AddTransactionDialog()
 {
 	itemTypeLine = new QLineEdit;
 	priceLine = new QLineEdit;
-	infoLine = new QLineEdit;
+	infoLine = new QPlainTextEdit;
 
 
 	buttonBox = nullptr;
 	acceptDialog = false;
-	createDialogComponenets();
 }
 
 
@@ -36,8 +38,9 @@ AddTransactionDialog::~AddTransactionDialog()
 	}
 }
 
-void AddTransactionDialog::createDialogComponenets()
+void AddTransactionDialog::createDialogComponenets(std::vector<Person*> &listOfPeople)
 {
+	locallistOfPeople = listOfPeople;
 	QVBoxLayout* widgetLayout = new QVBoxLayout;
 	this->setLayout(widgetLayout);
 
@@ -54,21 +57,44 @@ void AddTransactionDialog::createDialogComponenets()
 	priceLayout.addWidget(&priceLabel);
 	priceLayout.addWidget(priceLine);
 	widgetLayout->addLayout(&priceLayout);
+	
+	QLabel *infoLabel = new QLabel(this);
+	infoLabel->setText("Additional Information");
+	widgetLayout->addWidget(infoLabel);
+	infoLine->setFixedHeight(100);
+	widgetLayout->addWidget(infoLine);
 
-	QHBoxLayout infoLayout;
-	QLabel infoLabel;
-	infoLabel.setText("Addiotional Information");
-	infoLayout.addWidget(&infoLabel);
-	infoLayout.addWidget(infoLine);
-	widgetLayout->addLayout(&infoLayout);
+	QHBoxLayout buyerLayot;
+	QLabel *buyerLabel = new QLabel(this);
+	QPushButton *buyerButton = new QPushButton(this);
+	buyerButton->setText("Choose");
+	buyerLabel->setText("Who Paid ?");
+	buyerLayot.addWidget(buyerLabel);
+	buyerLayot.addWidget(buyerButton);
+	widgetLayout->addLayout(&buyerLayot);
+
 
 	buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 	widgetLayout->addWidget(buttonBox);
 
+	QPushButton *editPeopleNum = new QPushButton(this);
+	editPeopleNum->setText("Everyone is involved in this transaction");
+	widgetLayout->addWidget(editPeopleNum);
+	editPeopleNum->hide();
+
 	connect(buttonBox, SIGNAL(accepted()), this, SLOT(pressedOk()));
 	connect(buttonBox, SIGNAL(rejected()), this, SLOT(pressedCancel()));
+	connect(buyerButton, SIGNAL(clicked()), this, SLOT(clickedOnPeople()));
 
 	this->exec();
+}
+
+void AddTransactionDialog::clickedOnPeople()
+{
+	GenericSelectionDialog selectPeopleDialog;
+	selectPeopleDialog.choosePeopleDialog(locallistOfPeople);
+	
+
 }
 
 void AddTransactionDialog::pressedOk()
@@ -88,7 +114,7 @@ void AddTransactionDialog::setDialogValues()
 {
 	itemType_ = itemTypeLine->text().toStdString();
 	itemPrice_ = priceLine->text().toStdString();
-	itemDetails_ = infoLine->text().toStdString();
+	itemDetails_ = infoLine->toPlainText().toStdString();
 }
 
 std::list<std::string> AddTransactionDialog::getAllTransactionData()
@@ -97,7 +123,7 @@ std::list<std::string> AddTransactionDialog::getAllTransactionData()
 	if(acceptDialog) {
 		itemList.push_back(itemTypeLine->text().toStdString());
 		itemList.push_back(priceLine->text().toStdString());
-		itemList.push_back(infoLine->text().toStdString());
+		itemList.push_back(infoLine->toPlainText().toStdString());
 	}
 
 	return itemList;

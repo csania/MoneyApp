@@ -17,12 +17,12 @@ void Session::addAnotherItem(Item *newItem)
 	itemList.push_back(std::move(newItem));
 }
 
-void Session::addPersonToList(Person newPerson)
+void Session::addPersonToList(Person* newPerson)
 {
 	listOfPeople.push_back(newPerson);
 }
 
-void Session::updatePeopleList(std::vector<Person> newList)
+void Session::updatePeopleList(std::vector<Person*> newList)
 {
 	listOfPeople.clear();
 	listOfPeople = newList;
@@ -33,7 +33,7 @@ std::vector<Item*> Session::getItemList()
 	return itemList;
 }
 
-std::vector <Person> Session::getPeopleList()
+std::vector <Person*> Session::getPeopleList()
 {
 	return listOfPeople;
 }

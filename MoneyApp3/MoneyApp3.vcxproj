@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="AddPersonDialog.h" />
     <ClInclude Include="AddTransactionDialog.h" />
+    <ClInclude Include="GenericSelectionDialog.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Person.h" />
@@ -164,6 +165,8 @@
     <ClCompile Include="AddPersonDialog_moc.cpp" />
     <ClCompile Include="AddTransactionDialog.cpp" />
     <ClCompile Include="AddTransactionDialog_moc.cpp" />
+    <ClCompile Include="GenericSelectionDialog.cpp" />
+    <ClCompile Include="GenericSelectionDialog_MOC.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Interface_moc.cpp" />
     <ClCompile Include="Item.cpp" />

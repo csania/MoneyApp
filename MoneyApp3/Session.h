@@ -14,14 +14,14 @@ public:
 	~Session();
 
 	std::vector <Item*> getItemList();
-	std::vector <Person> getPeopleList();
+	std::vector <Person*> getPeopleList();
 	void addAnotherItem(Item *newItem);
-	void addPersonToList(Person newPerson);
-	void updatePeopleList(std::vector<Person> newList);
+	void addPersonToList(Person *newPerson);
+	void updatePeopleList(std::vector<Person*> newList);
 
 protected:
 	std::vector<Item*> itemList;
-	std::vector<Person> listOfPeople;
+	std::vector<Person*> listOfPeople;
 
 };
 

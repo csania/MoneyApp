@@ -70,8 +70,8 @@ void Interface::populatePeopleWidget(std::string newName)
 	}
 	else {
 		std::string allNames;
-		std::for_each(listOfPeople.begin(), listOfPeople.end(), [&allNames](Person &current) {
-			allNames += current.getPersonName() + " ";
+		std::for_each(listOfPeople.begin(), listOfPeople.end(), [&allNames](Person *current) {
+			allNames += current->getPersonName() + " ";
 		});
 		peopleButton->setText(QString::fromStdString(allNames));
 	}
@@ -102,6 +102,7 @@ void Interface::addTransaction()
 	QString time = nowTime.toString("hh:mm");
 
 	AddTransactionDialog transactionDialog;
+	transactionDialog.createDialogComponenets(thisSession->getPeopleList());
 	if(transactionDialog.getAcceptedDialog()) {
 
 		std::string outS = transactionDialog.getItemType() + " " + transactionDialog.getItemPrice();

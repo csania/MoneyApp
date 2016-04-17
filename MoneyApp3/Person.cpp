@@ -3,8 +3,8 @@
 Person::Person(std::string name)
 {
 	name_ = name;
-	float ammountPaid_ = 0;
-	float ammountOwes_ = 0;
+	ammountPaid_ = 0;
+	ammountOwes_ = 0;
 }
 
 
@@ -15,6 +15,31 @@ Person::~Person()
 void Person::addTransaction(long int transaction)
 {
 	purchaseList.push_back(std::move(transaction));
+}
+
+void Person::setDate(QDate date)
+{
+	addedDate_ = date;
+}
+
+void Person::setTime(QTime time)
+{
+	addedTime_ = time;
+}
+
+void Person::setIsSelectedForEdit(bool value)
+{
+	isSelectedForEdit = value;
+}
+
+bool Person::getIsSelectedForEdit()
+{
+	return isSelectedForEdit;
+}
+
+QString Person::getAddedDate()
+{
+	return addedDate_.toString("d MM");
 }
 
 std::string Person::getPersonName()
@@ -30,4 +55,14 @@ float Person::getAmmountPaid()
 float Person::getAmmountOwes()
 {
 	return ammountOwes_;
+}
+
+void Person::changeAmmountPain(float val)
+{
+	ammountPaid_ += val;
+}
+
+void Person::changeAmmountOwes(float val)
+{
+	ammountOwes_ += val;
 }
