@@ -1,5 +1,6 @@
 #include "GenericSelectionDialog.h"
 #include "person.h"
+#include <string>
 
 #include <QtWidgets\QVBoxLayout>
 #include <QtWidgets\qcheckbox.h>
@@ -51,6 +52,7 @@ void GenericSelectionDialog::choosePeopleDialog(const std::vector<Person*> peopl
 			connect(cBox, SIGNAL(stateChanged(int)), this, SLOT(checked(int)));
 		}
 
+		connect(okButton, SIGNAL(clicked()), this, SLOT(okPressed()));
 		widgetLayout->addWidget(okButton);
 		genericDialog->exec();
 	}
@@ -58,7 +60,7 @@ void GenericSelectionDialog::choosePeopleDialog(const std::vector<Person*> peopl
 
 void GenericSelectionDialog::checked(int state)
 {
-	std::vector<int> checkedBoxes;
+	checkedBoxes.clear();
 	int counter = 0;
 	for(auto it = checkBoxList.begin(); it != checkBoxList.end(); ++it) {
 		if((*it)->isChecked()) {
@@ -77,4 +79,23 @@ void GenericSelectionDialog::checked(int state)
 			(*it)->hide();
 		}
 	}
+}
+std::string GenericSelectionDialog::getCheckedPersonName(int index)
+{
+	return checkBoxList[index]->text().toStdString();
+}
+
+float GenericSelectionDialog::getAmmountPaid(int index)
+{
+	return std::stof(lineEditList[index]->text().toStdString());
+}
+
+std::vector<int> GenericSelectionDialog::getCheckedBoxes()
+{
+	return checkedBoxes;
+}
+
+void GenericSelectionDialog::okPressed()
+{
+	genericDialog->close();
 }
