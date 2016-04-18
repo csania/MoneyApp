@@ -22,6 +22,8 @@ public:
 	std::string getItemPrice();
 	std::string getItemDetails();
 
+	Person* findPersonByName(std::string name);
+
 	std::list<std::string> getAllTransactionData();
 
 private:

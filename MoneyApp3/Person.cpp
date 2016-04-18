@@ -57,7 +57,7 @@ float Person::getAmmountOwes()
 	return ammountOwes_;
 }
 
-void Person::changeAmmountPain(float val)
+void Person::changeAmmountPaid(float val)
 {
 	ammountPaid_ += val;
 }

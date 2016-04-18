@@ -91,7 +91,7 @@ void AddPersonDialog::populateListWidget()
 	for(auto it = localListOfPeople.begin(); it != localListOfPeople.end(); ++it) {
 
 		auto balance = (**it).getAmmountPaid() - (**it).getAmmountOwes();
-		QString balanceString = int((balance * 100)/100);
+		QString balanceString = QString::number(int((balance * 100)/100));
 
 		peopleSummaryDialog->insertRow(rowToUse);
 		peopleSummaryDialog->setItem(rowToUse,0,new QTableWidgetItem((**it).getAddedDate()));

@@ -1,5 +1,6 @@
 #include "AddTransactionDialog.h"
 #include "GenericSelectionDialog.h"
+#include "Person.h"
 
 #include <QtWidgets\QVBoxLayout>
 #include <QtWidgets\QHBoxLayout>
@@ -93,8 +94,31 @@ void AddTransactionDialog::clickedOnPeople()
 {
 	GenericSelectionDialog selectPeopleDialog;
 	selectPeopleDialog.choosePeopleDialog(locallistOfPeople);
-	
+	auto checkedList = selectPeopleDialog.getCheckedBoxes();
 
+	if(checkedList.size() == 1) {
+		auto currentName = selectPeopleDialog.getCheckedPersonName(checkedList.front());
+		float paid = std::stof(priceLine->text().toStdString());
+		findPersonByName(currentName)->changeAmmountPaid(paid);
+	}
+	else {
+		for(auto it = checkedList.begin(); it != checkedList.end(); ++it) {
+			auto currentName = selectPeopleDialog.getCheckedPersonName(*it);
+			float paid = selectPeopleDialog.getAmmountPaid(*it);
+			findPersonByName(currentName)->changeAmmountPaid(paid);
+		}
+	}
+	
+}
+
+Person* AddTransactionDialog::findPersonByName(std::string name)
+{
+	for(auto it = locallistOfPeople.begin(); it != locallistOfPeople.end(); ++it) {
+		if((*it)->getPersonName() == name) {
+			return (*it);
+		}
+	}
+	return nullptr;
 }
 
 void AddTransactionDialog::pressedOk()

@@ -14,7 +14,7 @@ public:
 	void setDate(QDate date);
 	void setTime(QTime time);
 	void setIsSelectedForEdit(bool value);
-	void changeAmmountPain(float val);
+	void changeAmmountPaid(float val);
 	void changeAmmountOwes(float val);
 
 	bool getIsSelectedForEdit();
